@@ -5,12 +5,19 @@ require('dotenv').config();
 const connectToDb = require('./config/db.js')
 //creating the instance of express in app variable.
 const app = express();
+//import cors
+const cors = require("cors");
+
 //init connection to db
 connectToDb()
+//using express middleware
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+app.use(cors())
+//exporting routes from routes.js file
+const userRoutes = require('./routes/routes.js')
 //server routing
-app.get('/',(req,res)=>{
-    res.send("<h1>This is home page.</h1>")
-})
+app.use('/',userRoutes)
 
 
 module.exports = app;
